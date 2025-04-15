@@ -7,7 +7,7 @@ export default function Navbar() {
     <AppBar position="static" sx={{ backgroundColor: "#212121" }}>
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Hammu Portfolio
+          Hamsa's Space 
         </Typography>
         <Box>
           <Button color="inherit" component={Link} to="/">Home</Button>

@@ -16,7 +16,7 @@ export default function Home() {
       }}
     >
       <Typography variant="h2" fontWeight={600}>
-        Hello, I'm Hammu 👋
+        Hello, I'm Hamsavardhan  👋
       </Typography>
       <Typography variant="h5" color="text.secondary" mt={2}>
         A Passionate Full Stack Developer & Creative Thinker
