@@ -18,6 +18,10 @@ import {
 import { motion } from 'framer-motion'; // For animations
 import { Link as RouterLink } from 'react-router-dom'; // For navigation links
 import profilePic from '../assets/IMG_7668.JPG';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
 
 const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -86,8 +90,10 @@ const Home = () => {
               </Typography>
               <Typography variant="body1" sx={{ wordBreak: 'break-word', color: darkMode ? 'white' : '#424242' }}>
                 📧 <Link href="mailto:hamsasanker06@email.com" underline="hover">hamsasanker06@email.com</Link><br />
-                🔗 <Link href="https://github.com/HamsavardhanS" target="_blank" underline="hover">github.com/Hamsavardhan</Link><br />
-                🔗 <Link href="https://www.linkedin.com/in/hamsavardhan-s-offl/" target="_blank" underline="hover">linkedin.com/in/Hamsavardhan</Link>
+                <GitHubIcon fontSize="small" sx={{ verticalAlign: 'middle', mr: 1 }} />
+                <Link href="https://github.com/HamsavardhanS" target="_blank" underline="hover">github.com/Hamsavardhan</Link><br />
+                <LinkedInIcon fontSize="small" sx={{ verticalAlign: 'middle', mr: 1 }} />
+                <Link href="https://www.linkedin.com/in/hamsavardhan-s-offl/" target="_blank" underline="hover">linkedin.com/in/Hamsavardhan</Link>
               </Typography>
             </Grid>
           </Grid>
