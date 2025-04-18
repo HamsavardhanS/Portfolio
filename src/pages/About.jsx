@@ -44,7 +44,7 @@ const About = () => {
           </Typography>
           <List>
             <ListItem>
-              <ListItemText primary="B.Tech in Computer Science & Engineering" secondary="Sri Krishna College of Technology - Coimbatore, 2023 - 2027" />
+              <ListItemText primary="B.E in Computer Science & Engineering" secondary="Sri Krishna College of Technology - Coimbatore, 2023 - 2027" />
             </ListItem>
             <ListItem>
               <ListItemText primary="Higher Secondary Schooling" secondary="Maruthi Higher Secondary School - Salem, 2021 - 2023" />
