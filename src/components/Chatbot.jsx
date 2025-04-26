@@ -1,159 +1,138 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  Box,
-  IconButton,
-  TextField,
-  Paper,
-  Typography,
-  Button,
-  useTheme
-} from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
-import CloseIcon from '@mui/icons-material/Close';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Box, IconButton, TextField, Button, Typography, Paper } from '@mui/material';
+import { Send, Message, Close } from '@mui/icons-material';
+import { motion } from 'framer-motion'; // for smooth animations
 
-const Chatbot = () => {
-  const theme = useTheme();
+const PortfolioChatbot = () => {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: "Hi there! Ask me about my portfolio 😊" }
+    { sender: 'bot', text: 'Hi there! 👋 How can I help you about my portfolio?' }
   ]);
-  const scrollRef = useRef();
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
+  const chatEndRef = useRef(null);
 
   const handleSend = () => {
     if (!input.trim()) return;
-    const userMsg = { sender: 'user', text: input.trim() };
-    setMessages(msgs => [...msgs, userMsg]);
+
+    const newMessages = [...messages, { sender: 'user', text: input }];
+    setMessages(newMessages);
+    respondToQuery(input);
     setInput('');
-
-    setTimeout(() => {
-      let reply = '';
-      const q = input.toLowerCase();
-      if (q.includes('name')) reply = "I'm Hamsavardhan, a full-stack dev and tech enthusiast.";
-      else if (q.includes('college')) reply = "Studying at Sri Krishna College of Technology (2023-2027).";
-      else if (q.includes('hi')) reply = "Hi there! Ask me about my portfolio 😊";
-      else if (q.includes('projects')) reply = "I build React/MUI web apps, React Native mobile apps, Spring Boot APIs.";
-      else if (q.includes('contact')) reply = "☎️ +91 8637423090 | GitHub: github.com/HamsavardhanS";
-      else reply = "Sorry, can you rephrase? You can ask 'projects', 'resume', or 'contact'.";
-
-      setMessages(msgs => [...msgs, { sender: 'bot', text: reply }]);
-    }, 600);
   };
 
-  return (
-    <>
-      <IconButton
-        onClick={() => setOpen(!open)}
-        sx={{
-          position: 'fixed',
-          bottom: 24,
-          right: 24,
-          bgcolor: theme.palette.primary.main,
-          color: '#fff',
-          '&:hover': { bgcolor: theme.palette.primary.dark }
-        }}
-      >
-        {open ? <CloseIcon /> : <ChatIcon />}
-      </IconButton>
+  const respondToQuery = (question) => {
+    let response = '';
 
-      <AnimatePresence>
-      {open && (
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          transition={{ duration: 0.3 }}
-          style={{
+    const lowerQ = question.toLowerCase();
+
+    if (lowerQ.includes('academic') || lowerQ.includes('college') || lowerQ.includes('study')) {
+      response = "🎓 I'm currently pursuing B.Tech CSE at Sri Krishna College of Technology (2023-2027).";
+    } else if (lowerQ.includes('project') || lowerQ.includes('interests')) {
+      response = "🚀 I'm interested in Full-Stack Development, Mobile Apps, REST APIs with Spring Boot/Node.js, and AI/ML!";
+    } else if (lowerQ.includes('resume') || lowerQ.includes('cv')) {
+      response = "📄 You can view my resume here: [Resume Link](https://drive.google.com/file/d/1STRu8XYZUzE6Uxh2OwDygT7LTLtqdzRV/view?usp=sharing)";
+    } else if (lowerQ.includes('skills') || lowerQ.includes('technologies')) {
+      response = "🛠️ I'm skilled in React, Spring Boot, Node.js, MongoDB, MySQL, and React Native!";
+    } else {
+      response = "🤔 Sorry, I didn't get that. Try asking about my academics, projects, skills, or resume!";
+    }
+
+    setTimeout(() => {
+      setMessages(prev => [...prev, { sender: 'bot', text: response }]);
+    }, 500); // bot reply delay
+  };
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  return (
+    <Box>
+      {!open && (
+        <IconButton
+          onClick={() => setOpen(true)}
+          sx={{
             position: 'fixed',
-            bottom: 80,
-            right: 24,
-            width: 320,
-            height: 480,          // fixed height
-            zIndex: 1300
+            bottom: 20,
+            right: 20,
+            backgroundColor: '#1976d2',
+            color: '#fff',
+            '&:hover': { backgroundColor: '#115293' },
+            zIndex: 9999
           }}
         >
-          <Paper elevation={6} sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            height: '100%',       // fill fixed height
-            borderRadius: 2 
-          }}>
-            <Box sx={{ 
-              p: 1, 
-              bgcolor: theme.palette.primary.main, 
-              color: '#fff', 
-              borderTopLeftRadius: 8, 
-              borderTopRightRadius: 8 
-            }}>
-              <Typography variant="subtitle1">Chat with me!</Typography>
-            </Box>
+          <Message />
+        </IconButton>
+      )}
 
-            <Box
-              ref={scrollRef}
-              sx={{ 
-                flex: 1, 
-                p: 1, 
-                overflowY: 'auto',    // enable scroll
-                bgcolor: theme.palette.background.default 
-              }}
-            >
-              <AnimatePresence>
-                {messages.map((m, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: m.sender === 'user' ? 50 : -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    style={{
-                      display: 'flex',
-                      justifyContent: m.sender === 'user' ? 'flex-end' : 'flex-start',
-                      marginBottom: 8
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        maxWidth: '70%',
-                        p: 1.25,
-                        borderRadius: 2,
-                        bgcolor: m.sender === 'user' ? theme.palette.primary.main : theme.palette.grey[200],
-                        color: m.sender === 'user' ? '#fff' : '#000'
-                      }}
-                    >
-                      {m.text}
-                    </Box>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </Box>
-
-            <Box sx={{ p: 1, borderTop: `1px solid ${theme.palette.divider}` }}>
-              <TextField
-                fullWidth
-                placeholder="Type a question..."
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleSend()}
-                size="small"
-                sx={{ mb: 1 }}
-              />
-              <Button variant="contained" size="small" fullWidth onClick={handleSend}>
-                Send
-              </Button>
-            </Box>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          style={{
+            position: 'fixed',
+            bottom: 20,
+            right: 20,
+            width: '350px',
+            height: '500px',
+            background: '#fff',
+            borderRadius: '16px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+            zIndex: 9999,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Paper sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1976d2', color: '#fff' }}>
+            <Typography variant="subtitle1">Hamsa's Bot here !  🤖</Typography>
+            <IconButton size="small" onClick={() => setOpen(false)} sx={{ color: '#fff' }}>
+              <Close />
+            </IconButton>
           </Paper>
+
+          <Box sx={{ flex: 1, p: 2, overflowY: 'auto' }}>
+            {messages.map((msg, idx) => (
+              <Box key={idx} sx={{ textAlign: msg.sender === 'user' ? 'right' : 'left', mb: 1 }}>
+                <Box
+                  sx={{
+                    display: 'inline-block',
+                    px: 2,
+                    py: 1,
+                    borderRadius: 2,
+                    backgroundColor: msg.sender === 'user' ? '#1976d2' : '#eeeeee',
+                    color: msg.sender === 'user' ? '#fff' : '#000',
+                    maxWidth: '80%'
+                  }}
+                >
+                  {msg.text}
+                </Box>
+              </Box>
+            ))}
+            <div ref={chatEndRef} />
+          </Box>
+
+          <Box sx={{ p: 1, borderTop: '1px solid #ddd', display: 'flex' }}>
+            <TextField
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              size="small"
+              placeholder="Ask me something..."
+              fullWidth
+            />
+            <IconButton onClick={handleSend} color="primary">
+              <Send />
+            </IconButton>
+          </Box>
         </motion.div>
       )}
-      </AnimatePresence>
-    </>
+    </Box>
   );
 };
 
-export default Chatbot;
+export default PortfolioChatbot;
