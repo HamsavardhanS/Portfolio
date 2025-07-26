@@ -22,7 +22,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
-import PortfolioChatbot from '../components/Chatbot';
+import { useEffect } from 'react';
 
 const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -31,6 +31,20 @@ const Home = () => {
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
+  useEffect(() => {
+  const script = document.createElement('script');
+  script.src = 'https://chatling.ai/js/embed.js';
+  script.async = true;
+  script.setAttribute('data-id', '8429329645'); // Replace with actual ID
+  script.id = 'chtl-script';
+
+  window.chtlConfig = { chatbotId: '8429329645' }; // Replace here too
+  document.body.appendChild(script);
+
+  return () => {
+    document.getElementById('chtl-script')?.remove();
+  };
+}, []);
 
   return (
     <Box
@@ -190,7 +204,6 @@ const Home = () => {
   </CardContent>
 </Card>
      </Box>
-     <PortfolioChatbot/>
     </Box>
   );
 };
