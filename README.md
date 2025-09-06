@@ -71,4 +71,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 ### `docker-hub-source`
-This Deployment feature for docker is also Added - "docker run hamsa936/hamsavardhan"
+This Deployment feature for docker is also Added 
+``` bash
+docker pull hamsa936/hamsavardhan:latest
+docker run -d -p 7777:3000 hamsa936/hamsavardhan:latest
+```
